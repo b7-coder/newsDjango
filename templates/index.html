@@ -31,7 +31,7 @@
 							<ul>
 								<li class="search">
 									<a class="fa-search" href="#search">Search</a>
-									<form id="search" method="get" action="#">
+									<form id="search" method="get" action="/">
 										<input type="text" name="query" placeholder="Search" />
 									</form>
 								</li>
@@ -99,24 +99,24 @@
 							<article class="post">
 								<header>
 									<div class="title">
-										<h2><a href="single.html">{{row.title}}</a></h2>
+										<h2><a href="{% url 'single' row.id %}">{{row.title}}</a></h2>
 										<p>{{row.description}}</p>
 									</div>
 									<div class="meta">
 										<time class="published" datetime="2015-11-01">{{row.created_at}}</time>
-										<a href="#" class="author"><span class="name">Jane Doe</span><img src="images/avatar.jpg" alt="" /></a>
+										<a href="{% url 'single' row.id %}" class="author"><span class="name">{{row.author.username}}</span><img src="images/avatar.jpg" alt="" /></a>
 									</div>
 								</header>
 								<a href="{% url 'single' row.id %}" class="image featured"><img src="{{row.main_image.url}}" alt="" /></a>
 								<p>{{row.text}}</p>
 								<footer>
 									<ul class="actions">
-										<li><a href="single.html" class="button large">Continue Reading</a></li>
+										<li><a href="{% url 'single' row.id %}" class="button large">Continue Reading</a></li>
 									</ul>
 									<ul class="stats">
-										<li><a href="#">General</a></li>
-										<li><a href="#" class="icon solid fa-heart">28</a></li>
-										<li><a href="#" class="icon solid fa-comment">128</a></li>
+										<li><a href="#">Количество просмотров {{row.counter}}</a></li>
+										<li><a href="/like/?id={{row.id}}" class="icon solid fa-heart">{{row.like_count}}</a></li>
+										<!-- <li><a href="#" class="icon solid fa-comment">128</a></li> -->
 									</ul>
 								</footer>
 							</article>
@@ -437,8 +437,11 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 
 						<!-- Pagination -->
 							<ul class="actions pagination">
-								<li><a href="" class="disabled button large previous">Previous Page</a></li>
-								<li><a href="#" class="button large next">Next Page</a></li>
+								<li><a href="?page={{previous_page}}" class="button large previous">Previous Page</a></li>
+								{% for page in pages%}
+									<li><a href="?page={{page}}" class="button large next">{{page}}</a></li>
+								{% endfor%}
+								<li><a href="?page={{next_page}}" class="button large next">Next Page</a></li>
 							</ul>
 
 					</div>
@@ -458,47 +461,17 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 						<!-- Mini Posts -->
 							<section>
 								<div class="mini-posts">
-
-									<!-- Mini Post -->
+									<h3>Свежие новости</h3>
+									{% for new in new_news %}
 										<article class="mini-post">
 											<header>
-												<h3><a href="single.html">Vitae sed condimentum</a></h3>
-												<time class="published" datetime="2015-10-20">October 20, 2015</time>
-												<a href="#" class="author"><img src="images/avatar.jpg" alt="" /></a>
+												<h3><a href="{% url 'single' new.id %}">{{new.title}}</a></h3>
+												<time class="published" datetime="2015-10-20">{{new.created_at}}</time>
+												<a href="{% url 'single' new.id %}" class="author">{{new.author.username}}</a>
 											</header>
-											<a href="single.html" class="image"><img src="images/pic04.jpg" alt="" /></a>
+											<a href="{% url 'single' new.id %}" class="image"><img src="images/pic04.jpg" alt="" /></a>
 										</article>
-
-									<!-- Mini Post -->
-										<article class="mini-post">
-											<header>
-												<h3><a href="single.html">Rutrum neque accumsan</a></h3>
-												<time class="published" datetime="2015-10-19">October 19, 2015</time>
-												<a href="#" class="author"><img src="images/avatar.jpg" alt="" /></a>
-											</header>
-											<a href="single.html" class="image"><img src="images/pic05.jpg" alt="" /></a>
-										</article>
-
-									<!-- Mini Post -->
-										<article class="mini-post">
-											<header>
-												<h3><a href="single.html">Odio congue mattis</a></h3>
-												<time class="published" datetime="2015-10-18">October 18, 2015</time>
-												<a href="#" class="author"><img src="images/avatar.jpg" alt="" /></a>
-											</header>
-											<a href="single.html" class="image"><img src="images/pic06.jpg" alt="" /></a>
-										</article>
-
-									<!-- Mini Post -->
-										<article class="mini-post">
-											<header>
-												<h3><a href="single.html">Enim nisl veroeros</a></h3>
-												<time class="published" datetime="2015-10-17">October 17, 2015</time>
-												<a href="#" class="author"><img src="images/avatar.jpg" alt="" /></a>
-											</header>
-											<a href="single.html" class="image"><img src="images/pic07.jpg" alt="" /></a>
-										</article>
-
+									{% endfor %}
 								</div>
 							</section>
 

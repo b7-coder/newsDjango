@@ -150,6 +150,26 @@
 							</article>
 							{% endfor %}
 
+							<article class="post">
+								<h1>Комментарии</h1>
+								<br>
+								<form action="{% url 'comments' row.id %}" method="post">
+									{% csrf_token %}
+									<label>Name:</label>
+									<input type="text" name="name" />
+									<label>Text:</label>
+									<input type="text" name="text" />
+									<input type="submit" value="Save" />
+								  </form>
+								  <br>
+								  <br>
+								{% for commetn in comments%}
+								  <h4>{{commetn.name}}: {{commetn.text}}</h4>
+								  <br>
+								{% endfor %}
+
+							</article>
+
 					</div>
 
 				<!-- Footer -->

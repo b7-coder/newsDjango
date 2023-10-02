@@ -25,7 +25,11 @@ urlpatterns = [
     path('', index, name = 'index'),
     path('single/<int:id>', single, name = 'single'),
     path('about/', about, name = 'about'),
+    path('paginationTest/', paginationTest, name = 'paginationTest'),
     # path('test/<int:num>', test, name = 'test'),
+    path('search/', search, name = 'search'),
+    path('like/', like, name = 'like'),
+    path('comments/<int:id>', comments, name = 'comments'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL,
